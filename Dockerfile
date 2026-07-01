@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:alpine AS builder
+FROM docker.io/library/golang:alpine AS builder
 WORKDIR /app
 COPY go.mod ./
 RUN go mod download
@@ -7,7 +7,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o main .
 
 # Final stage
-FROM eclipse-temurin:17-jre-alpine
+FROM docker.io/library/eclipse-temurin:17-jre-alpine
 WORKDIR /app
 # Copy the binary from the builder
 COPY --from=builder /app/main .
